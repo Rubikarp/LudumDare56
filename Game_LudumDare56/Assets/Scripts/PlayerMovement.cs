@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
+        rigidBody.gravityScale = 0;
     }
 
     void Update()

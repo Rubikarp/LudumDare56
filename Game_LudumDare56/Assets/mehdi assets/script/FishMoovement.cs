@@ -6,68 +6,41 @@ public class FishMoovement : MonoBehaviour
 {
     public float moveSpeed = 3f; // Vitesse de déplacement du poisson
     public float timeToChangeDirection = 3f; // Temps avant de changer de direction
-    public Vector2 movementBoundsMin; // Limite inférieure de la zone de déplacement (en 2D)
-    public Vector2 movementBoundsMax; // Limite supérieure de la zone de déplacement (en 2D)
+    public FishZone moveArea;
 
-    private Vector2 targetDirection; // Direction dans laquelle le poisson se déplace
-    private float changeDirectionTimer;
+    private Vector2 targetPosition;
 
     void Start()
     {
         // Générer une première direction aléatoire
-        GenerateNewDirection();
+        SetNextPoint();
     }
 
     void Update()
     {
         // Déplacement du poisson
         MoveFish();
-
-        // Changer de direction après un certain temps
-        changeDirectionTimer += Time.deltaTime;
-        if (changeDirectionTimer > timeToChangeDirection)
-        {
-            GenerateNewDirection();
-        }
-
-        // Vérifier si le poisson sort des limites et ajuster la direction
-        CheckBounds();
     }
 
     void MoveFish()
     {
         // Déplacer le poisson dans la direction cible
-        transform.Translate(targetDirection * moveSpeed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
 
         // Faire tourner le poisson pour faire face à la direction du mouvement (en 2D)
-        float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
+        Vector2 direction = targetPosition - (Vector2)transform.position;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+        // Vérifier si le poisson est arrivé à la position cible
+        if (Vector2.Distance(transform.position, targetPosition) < 1f)
+        {
+            SetNextPoint();
+        }
     }
 
-    void GenerateNewDirection()
+    void SetNextPoint()
     {
-        // Générer une direction aléatoire en 2D
-        targetDirection = new Vector2(
-            Random.Range(-1f, 1f),
-            Random.Range(-1f, 1f)
-        ).normalized;
-
-        // Reset du timer de changement de direction
-        changeDirectionTimer = 0f;
-    }
-
-    void CheckBounds()
-    {
-        Vector2 pos = transform.position;
-
-        // Si le poisson sort des limites, inverser la direction correspondante
-        if (pos.x < movementBoundsMin.x || pos.x > movementBoundsMax.x)
-        {
-            targetDirection.x = -targetDirection.x;
-        }
-
-        if (pos.y < movementBoundsMin.y || pos.y > movementBoundsMax.y)
-        {
-            targetDirection.y = -targetDirection.y;
-        }
+        targetPosition = moveArea.Area.RandomPointInRect();
     }
 }
