@@ -556,11 +556,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c30eab97610e6de44902f72fa4c6c54f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToSpawn: {fileID: 6431024852868786394, guid: 67af42761d0004f4f819384586c32dae, type: 3}
+  spawnableObjects:
+  - objectPrefab: {fileID: 6431024852868786394, guid: 67af42761d0004f4f819384586c32dae, type: 3}
+    spawnChance: 80
+  - objectPrefab: {fileID: 6431024852868786394, guid: e0d9a072b95d52347867cff38be61063, type: 3}
+    spawnChance: 15
+  - objectPrefab: {fileID: 6431024852868786394, guid: e8b676adcbe9a05478fbcd625bebced4, type: 3}
+    spawnChance: 5
   maxObjects: 10
   spawnAreaMin: {x: 3, y: -0.85, z: 0}
   spawnAreaMax: {x: 7, y: 1.41, z: 0}
-  spawnInterval: 2
+  spawnInterval: 1
 --- !u!1 &1581702166
 GameObject:
   m_ObjectHideFlags: 0
