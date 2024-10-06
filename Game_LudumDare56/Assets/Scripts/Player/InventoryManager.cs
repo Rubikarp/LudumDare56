@@ -36,12 +36,14 @@ public class InventoryManager : MonoBehaviour
     {
         public string Name { get; private set; }
         public int SellPrice { get; private set; }
+        public Sprite Image { get; private set; } // Ajout de l'image
         public ItemType ObjectType { get; private set; }
 
         public Fish(string name, int sellPrice)
         {
             Name = name;
             SellPrice = sellPrice;
+            Image = image; // Assigner l'image
             ObjectType = ItemType.Fish;
         }
 

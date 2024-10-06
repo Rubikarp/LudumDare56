@@ -33,7 +33,8 @@ public class ShopManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.M))
         {
             Debug.Log("Touche M appuyée");
-            InventoryManager.Fish newFish = new InventoryManager.Fish("Saumon", 50);
+            Sprite fishImage = Resources.Load<Sprite>("Images/PacFish");
+            InventoryManager.Fish newFish = new InventoryManager.Fish("PacFish", 50, fishImage);
             inventoryManager.AddFish(newFish);
             PopulateContent();
         }
@@ -109,10 +110,14 @@ public class ShopManager : MonoBehaviour
 
         if (isBuyMode)
         {
-            // Ici, tu peux remplir le magasin avec des objets à acheter (exemple statique)
-            AddItemToShop("Harpon", 200);
-            AddItemToShop("Grand Sac", 150);
-            AddItemToShop("Palmes", 50);
+            // Exemple d'ajout d'items à acheter avec des images
+            Sprite harpoonImage = Resources.Load<Sprite>("Images/Harpoon");  // Assurez-vous que l'image est dans un dossier "Resources"
+            Sprite bagImage = Resources.Load<Sprite>("Images/Bag");
+            Sprite flippersImage = Resources.Load<Sprite>("Images/Flippers");
+
+            AddItemToShop("Harpon", 200, harpoonImage);
+            AddItemToShop("Grand Sac", 150, bagImage);
+            AddItemToShop("Palmes", 50, flippersImage);
         }
         else
         {
@@ -123,31 +128,37 @@ public class ShopManager : MonoBehaviour
                 GameObject newItemLine = Instantiate(itemLinePrefab, contentPanel);
                 TextMeshProUGUI itemName = newItemLine.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>();
                 TextMeshProUGUI itemPrice = newItemLine.transform.Find("Text (TMP) (1)").GetComponent<TextMeshProUGUI>();
+                Image itemImage = newItemLine.transform.Find("Image").GetComponent<Image>();  // Référence à l'image dans le prefab
                 Button sellButton = newItemLine.transform.Find("Button").GetComponent<Button>();
 
-                // Mise à jour du texte de l'item
+                // Mise à jour du texte et de l'image de l'item
                 itemName.text = item.Name;
                 itemPrice.text = item.SellPrice + "€";
+                itemImage.sprite = item is InventoryManager.Fish ? (item as InventoryManager.Fish).Image : null; // Assigner l'image
 
-                // Associer la fonction de vente au bouton
+                // Adapter le texte du bouton et l'action au mode "Sell"
+                sellButton.GetComponentInChildren<TextMeshProUGUI>().text = "Sell";
                 sellButton.onClick.AddListener(() => SellItem(item));
             }
         }
     }
 
     // Méthode pour ajouter un objet à acheter au magasin (par exemple des objets fixes)
-    void AddItemToShop(string itemName, int price)
+    void AddItemToShop(string itemName, int price, Sprite itemImage)
     {
         GameObject newItemLine = Instantiate(itemLinePrefab, contentPanel);
         TextMeshProUGUI itemNameText = newItemLine.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI itemPriceText = newItemLine.transform.Find("Text (TMP) (1)").GetComponent<TextMeshProUGUI>();
+        Image imageComponent = newItemLine.transform.Find("Image").GetComponent<Image>(); // Trouver l'élément Image dans le prefab
         Button buyButton = newItemLine.transform.Find("Button").GetComponent<Button>();
 
-        // Mettre à jour le texte
+        // Mise à jour du texte de l'item
         itemNameText.text = itemName;
         itemPriceText.text = price + "€";
+        imageComponent.sprite = itemImage; // Assigner l'image
 
-        // Ajoute une action à ce bouton
+        // Adapter le texte du bouton et l'action au mode "Buy"
+        buyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Buy";
         buyButton.onClick.AddListener(() => BuyItem(itemName, price));
     }
 
