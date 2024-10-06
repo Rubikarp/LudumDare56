@@ -32,6 +32,6 @@ public class PlayerMovement : MonoBehaviour
             movement.Normalize();
         }
 
-        rigidBody.velocity = movement * playerData.defaultSpeed;
+        rigidBody.velocity = movement * playerData.CurrentSpeed;
     }
 }

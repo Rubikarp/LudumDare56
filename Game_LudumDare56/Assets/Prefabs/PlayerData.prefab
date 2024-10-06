@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3256101030733171760}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -45,10 +45,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   money: 0
-  defaultCapacity: 8
+  defaultCapacity: 6
   defaultSpeed: 5
-  defaultDeterioration: 1
   netLevel: 0
-  iceLevel: 0
+  levelNets:
+  - launchDuration: 1
+    launchDistance: 8
+    captureRadius: 2
+    useCoolDown: 0.5
+    launchScaleEsae: 4
+    retrieveScaleEsae: 2
+    launchMoveEsae: 3
+    retrieveMoveEsae: 5
+  - launchDuration: 1
+    launchDistance: 8
+    captureRadius: 2
+    useCoolDown: 0.5
+    launchScaleEsae: 4
+    retrieveScaleEsae: 2
+    launchMoveEsae: 3
+    retrieveMoveEsae: 5
+  - launchDuration: 1
+    launchDistance: 8
+    captureRadius: 2
+    useCoolDown: 0.5
+    launchScaleEsae: 4
+    retrieveScaleEsae: 2
+    launchMoveEsae: 3
+    retrieveMoveEsae: 5
+  netLevelPrice: fa000000e8030000
   palmLevel: 0
+  levelPalms:
+  - 0
+  - 4
+  - 8
+  - 12
+  - 16
+  palmLevelPrice: 3200000064000000c8000000f4010000
+  iceLevel: 0
+  levelIce:
+  - 1
+  - 0.8
+  - 0.5
+  - 0.25
+  iceLevelPrice: c8000000ee020000c4090000
   tankLevel: 0
+  levelTank: 00000000020000000400000006000000080000000a000000
+  tankLevelPrice: 32000000960000002c010000c201000058020000

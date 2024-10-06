@@ -4,14 +4,16 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.Events;
 using NaughtyAttributes;
+using UnityEngine.UI;
 
 
 public class PlayerAim : MonoBehaviour
 {
     [SerializeField] private Transform aimTransform;
+    [SerializeField] private PlayerData playerdata;
+    
     [SerializeField] private PlayerNet net;
-
-    [SerializeField] private Netdata netData;
+    [SerializeField] private Image circularCooldown;
 
     public Vector3 AimDirection { get; private set; }
     public Vector3 AimWorldPos { get; private set; }
@@ -27,7 +29,9 @@ public class PlayerAim : MonoBehaviour
 
     private void Awake()
     {
+        playerdata = PlayerData.Instance;
         onLeftClick.AddListener(LauchNet);
+        circularCooldown.gameObject.SetActive(false);
     }
 
     void Update()
@@ -67,7 +71,7 @@ public class PlayerAim : MonoBehaviour
             Debug.Log("Net is on cooldown");
             return;
         }
-        var coroutine = LauchNetCoroutine(netData);
+        var coroutine = LauchNetCoroutine(playerdata.CurrentNet);
         lauchNetCoroutine = StartCoroutine(coroutine);
     }
 
@@ -82,7 +86,7 @@ public class PlayerAim : MonoBehaviour
 
         var netLaunchSequence = DOTween.Sequence();
 
-        netLaunchSequence.Append(net.transform.DOMove(aimNetPos, netdata.launchDuration).SetEase(netData.launchMoveEsae));
+        netLaunchSequence.Append(net.transform.DOMove(aimNetPos, netdata.launchDuration).SetEase(netdata.launchMoveEsae));
         netLaunchSequence.Join(net.transform.DOScale(Vector3.one * netdata.captureRadius, netdata.launchDuration).SetEase(netdata.launchScaleEsae));
 
         netLaunchSequence.Play();
@@ -96,8 +100,10 @@ public class PlayerAim : MonoBehaviour
         netRetractSequence.Play();
         yield return netRetractSequence.WaitForCompletion();
 
-
+        circularCooldown.gameObject.SetActive(true);
+        circularCooldown.DOFillAmount(1, netdata.useCoolDown).From(0);
         yield return new WaitForSeconds(netdata.useCoolDown);
+        circularCooldown.gameObject.SetActive(false);
 
         net.gameObject.SetActive(false);
         lauchNetCoroutine = null;

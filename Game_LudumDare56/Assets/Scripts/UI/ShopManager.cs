@@ -7,15 +7,16 @@ using System.Collections.Generic;
 public class ShopManager : MonoBehaviour
 {
     private PlayerData playerData;
+    private PlayerInventory inventoryManager;
+
     [SerializeField]
     private FishData debugFish;
-    public InventoryManager inventoryManager; // Référence à InventoryManager
 
     [HorizontalLine]
     public GameObject shopScreen; // Référence à l'UI de la boutique
 
     [Header("Content")]
-    public GameObject itemLinePrefab; // Préfab pour une ligne d'item (à acheter/vendre)
+    public ItemLine itemLinePrefab; // Préfab pour une ligne d'item (à acheter/vendre)
     public Transform contentPanel; // Référence au panel où les items sont affichés
 
     [Header("Money Display")]
@@ -29,23 +30,23 @@ public class ShopManager : MonoBehaviour
     private bool shopIsOpen = false;
     private bool isBuyMode = false; // Faux par défaut, pour commencer en mode "Sell"
 
-    void Start()
+    private void Start()
     {
         playerData = PlayerData.Instance;
-        inventoryManager = InventoryManager.Instance;
+        inventoryManager = PlayerInventory.Instance;
 
         UpdateMoneyDisplay(); // Affiche l'argent dès le départ
         RedrawItemLines();
         ShowBuyItems(); // Par défaut, afficher les items à vendre
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.B)) // Ouvrir/fermer la boutique
         {
             ToggleShop();
         }
-        // Vérifie si la touche M est bien captée
+
         if (Input.GetKeyDown(KeyCode.M))
         {
             Debug.Log("Touche M appuyée");
@@ -65,7 +66,6 @@ public class ShopManager : MonoBehaviour
             SellItem(inventoryManager.fishCaught[0]);
             RedrawItemLines();
         }
-
     }
 
     // Méthode pour ouvrir/fermer la boutique
@@ -83,12 +83,10 @@ public class ShopManager : MonoBehaviour
             CloseShop();
         }
     }
-
     void OpenShop()
     {
         RedrawItemLines(); // Remplir le contenu selon l'état (Buy/Sell)
     }
-
     void CloseShop()
     {
 
@@ -102,7 +100,6 @@ public class ShopManager : MonoBehaviour
         sellButton.interactable = true; // Active le bouton "Sell"
         RedrawItemLines(); // Remplit la liste avec les items à acheter
     }
-
     public void ShowSellItems()
     {
         isBuyMode = false; // Passer en mode "Sell"
@@ -122,71 +119,97 @@ public class ShopManager : MonoBehaviour
 
         if (isBuyMode)
         {
-            // Exemple d'ajout d'items à acheter avec des images
-            Sprite harpoonImage = Resources.Load<Sprite>("Images/Harpoon");  // Assurez-vous que l'image est dans un dossier "Resources"
-            Sprite bagImage = Resources.Load<Sprite>("Images/Bag");
-            Sprite flippersImage = Resources.Load<Sprite>("Images/Flippers");
-
-            AddItemToShop("Harpon", 200, harpoonImage);
-            AddItemToShop("Grand Sac", 150, bagImage);
-            AddItemToShop("Palmes", 50, flippersImage);
+            DrawUpgradeLines();
         }
         else
         {
-            // Obtenir les objets à vendre (ceux qui sont dans l'inventaire du joueur)
-            List<FishItem> sellableItems = inventoryManager.fishCaught;
-            foreach (var item in sellableItems)
+            DrawInventoryLines();
+        }
+    }
+
+    private void DrawUpgradeLines()
+    {
+        //For each upgrade type, draw a line
+        foreach (UpgradeType upgradeType in System.Enum.GetValues(typeof(UpgradeType)))
+        {
+            ItemLine newItemLine = Instantiate(itemLinePrefab, contentPanel);
+
+            var price = 0;
+            switch (upgradeType)
             {
-                GameObject newItemLine = Instantiate(itemLinePrefab, contentPanel);
-                TextMeshProUGUI itemName = newItemLine.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>();
-                TextMeshProUGUI itemPrice = newItemLine.transform.Find("Text (TMP) (1)").GetComponent<TextMeshProUGUI>();
-                Image itemImage = newItemLine.transform.Find("Image").GetComponent<Image>();  // Référence à l'image dans le prefab
-                Button sellButton = newItemLine.transform.Find("Button").GetComponent<Button>();
-
-                // Mise à jour du texte et de l'image de l'item
-                itemName.text = item.data.specieName;
-                itemPrice.text = item.Price + "€";
-                itemImage.sprite = item.data.sprite; // Assigner l'image
-
-                // Adapter le texte du bouton et l'action au mode "Sell"
-                sellButton.GetComponentInChildren<TextMeshProUGUI>().text = "Sell";
-                sellButton.onClick.AddListener(() => SellItem(item));
+                case UpgradeType.Net:
+                    price = playerData.netLevelPrice[playerData.netLevel];
+                    newItemLine.SetItem(null, "Net upgrade", price.ToString(), () => BuyUpgrade(UpgradeType.Net));
+                    break;
+                case UpgradeType.Tank:
+                    price = playerData.tankLevelPrice[playerData.tankLevel];
+                    newItemLine.SetItem(null, "Tank upgrade", price.ToString(), () => BuyUpgrade(UpgradeType.Tank));
+                    break;
+                case UpgradeType.Icebox:
+                    price = playerData.iceLevelPrice[playerData.iceLevel];
+                    newItemLine.SetItem(null, "Icebox upgrade", price.ToString(), () => BuyUpgrade(UpgradeType.Icebox));
+                    break;
+                case UpgradeType.Palmes:
+                    price = playerData.palmLevelPrice[playerData.palmLevel];
+                    newItemLine.SetItem(null, "Palmes upgrade", price.ToString(), () => BuyUpgrade(UpgradeType.Palmes));
+                    break;
             }
         }
     }
-
-    // Méthode pour ajouter un objet à acheter au magasin (par exemple des objets fixes)
-    void AddItemToShop(string itemName, int price, Sprite itemImage)
+    private void DrawInventoryLines()
     {
-        GameObject newItemLine = Instantiate(itemLinePrefab, contentPanel);
-        TextMeshProUGUI itemNameText = newItemLine.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI itemPriceText = newItemLine.transform.Find("Text (TMP) (1)").GetComponent<TextMeshProUGUI>();
-        Image imageComponent = newItemLine.transform.Find("Image").GetComponent<Image>(); // Trouver l'élément Image dans le prefab
-        Button buyButton = newItemLine.transform.Find("Button").GetComponent<Button>();
-
-        // Mise à jour du texte de l'item
-        itemNameText.text = itemName;
-        itemPriceText.text = price + "€";
-        imageComponent.sprite = itemImage; // Assigner l'image
-
-        // Adapter le texte du bouton et l'action au mode "Buy"
-        buyButton.GetComponentInChildren<TextMeshProUGUI>().text = "Buy";
-        buyButton.onClick.AddListener(() => BuyItem(itemName, price));
+        List<FishItem> sellableItems = inventoryManager.fishCaught;
+        foreach (var item in sellableItems)
+        {
+            ItemLine newItemLine = Instantiate(itemLinePrefab, contentPanel);
+            newItemLine.SetItem(item, () => SellItem(item));
+        }
     }
 
     // Achat d'un item (cette méthode devra être modifiée selon la logique d'achat)
-    void BuyItem(string itemName, int price)
+    void BuyUpgrade(UpgradeType upgradeType)
     {
-        if (playerData.money >= price)
+        var price = 0;
+        switch (upgradeType)
         {
-            playerData.money -= price; // Retirer l'argent
-            UpdateMoneyDisplay(); // Mettre à jour l'affichage de l'argent
-            Debug.Log("Acheté : " + itemName);
+            case UpgradeType.Net:
+                price = playerData.netLevelPrice[playerData.netLevel];
+                break;
+            case UpgradeType.Tank:
+                price = playerData.tankLevelPrice[playerData.tankLevel];
+                break;
+            case UpgradeType.Icebox:
+                price = playerData.iceLevelPrice[playerData.iceLevel];
+                break;
+            case UpgradeType.Palmes:
+                price = playerData.palmLevelPrice[playerData.palmLevel];
+                break;
         }
-        else
+
+        // Si le joueur n'a pas assez d'argent, on ne fait rien
+        if (playerData.money < playerData.netLevelPrice[playerData.netLevel])
         {
-            Debug.Log("Pas assez d'argent pour acheter " + itemName);
+            return;
         }
+        playerData.money -= playerData.netLevelPrice[playerData.netLevel];
+        switch (upgradeType)
+        {
+            case UpgradeType.Net:
+                playerData.netLevel++;
+                break;
+            case UpgradeType.Tank:
+                playerData.tankLevel++;
+                break;
+            case UpgradeType.Icebox:
+                playerData.iceLevel++;
+                break;
+            case UpgradeType.Palmes:
+                playerData.palmLevel++;
+                break;
+        }
+
+        UpdateMoneyDisplay();
+        RedrawItemLines();
     }
 
     // Vente d'un objet
@@ -204,4 +227,12 @@ public class ShopManager : MonoBehaviour
     {
         moneyText.text = playerData.money + " €";
     }
+}
+
+public enum UpgradeType
+{
+    Net,
+    Tank,
+    Icebox,
+    Palmes,
 }

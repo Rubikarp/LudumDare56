@@ -3,7 +3,7 @@ using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 
-public class InventoryManager : SingletonMonoBehaviour<InventoryManager>
+public class PlayerInventory : SingletonMonoBehaviour<PlayerInventory>
 {
     private PlayerData playerData;
     public List<FishItem> fishCaught = new List<FishItem>();
@@ -18,7 +18,7 @@ public class InventoryManager : SingletonMonoBehaviour<InventoryManager>
 
     public void AddFish(FishItem fishItem)
     {
-        if(fishCaught.Count >= playerData.defaultCapacity)
+        if(fishCaught.Count >= playerData.CurrentTank)
         {
             Debug.Log("Inventory is full");
             return;
