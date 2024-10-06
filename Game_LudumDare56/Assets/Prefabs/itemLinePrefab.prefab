@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8208294640469313304}
   - component: {fileID: 8764541272256063247}
   - component: {fileID: 8972521935090112486}
+  - component: {fileID: 8151284215552491942}
   m_Layer: 5
   m_Name: itemLinePrefab
   m_TagString: Untagged
@@ -79,6 +80,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8151284215552491942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 45366331383704887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7dc0f91293e36b4dbd63cdf54e0739c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectSprite: {fileID: 8878506650886234023}
+  itemName: {fileID: 6850530043982634013}
+  itemPrice: {fileID: 776846972673279256}
+  actionButton: {fileID: 6729270350356942652}
 --- !u!1 &2565319958522702579
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,7 +161,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sell
+  m_text: Upgrade
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9b3498042815aa84fb9faaec53541539, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 9b3498042815aa84fb9faaec53541539, type: 2}
@@ -171,10 +188,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
+  m_fontSize: 38.95
   m_fontSizeBase: 24
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -207,7 +224,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 25, y: 10, z: 25, w: 10}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -346,7 +363,7 @@ GameObject:
   - component: {fileID: 7119594239336501422}
   - component: {fileID: 776846972673279256}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: Price
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -555,7 +572,7 @@ GameObject:
   - component: {fileID: 9212829030217270603}
   - component: {fileID: 6850530043982634013}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Description
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

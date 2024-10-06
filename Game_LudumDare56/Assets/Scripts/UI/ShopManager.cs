@@ -139,19 +139,47 @@ public class ShopManager : MonoBehaviour
             {
                 case UpgradeType.Net:
                     price = playerData.netLevelPrice[playerData.netLevel];
-                    newItemLine.SetItem(null, "Net upgrade", price.ToString(), () => BuyUpgrade(UpgradeType.Net));
+                    if(playerData.netLevel == playerData.netLevelPrice.Length - 1)
+                    {
+                        newItemLine.SetItem(null, "Net upgrade", "Max level", () => { });
+                    }
+                    else
+                    {
+                        newItemLine.SetItem(null, "Net upgrade", price.ToString(), () => BuyUpgrade(UpgradeType.Net));
+                    }
                     break;
                 case UpgradeType.Tank:
                     price = playerData.tankLevelPrice[playerData.tankLevel];
-                    newItemLine.SetItem(null, "Tank upgrade", price.ToString(), () => BuyUpgrade(UpgradeType.Tank));
+                    if(playerData.tankLevel == playerData.tankLevelPrice.Length - 1)
+                    {
+                        newItemLine.SetItem(null, "Tank upgrade", "Max level", () => { });
+                    }
+                    else
+                    {
+                        newItemLine.SetItem(null, "Tank upgrade", price.ToString(), () => BuyUpgrade(UpgradeType.Tank));
+                    }
                     break;
                 case UpgradeType.Icebox:
                     price = playerData.iceLevelPrice[playerData.iceLevel];
-                    newItemLine.SetItem(null, "Icebox upgrade", price.ToString(), () => BuyUpgrade(UpgradeType.Icebox));
+                    if(playerData.iceLevel == playerData.iceLevelPrice.Length - 1)
+                    {
+                        newItemLine.SetItem(null, "Icebox upgrade", "Max level", () => { });
+                    }
+                    else
+                    {
+                        newItemLine.SetItem(null, "Icebox upgrade", price.ToString(), () => BuyUpgrade(UpgradeType.Icebox));
+                    }
                     break;
                 case UpgradeType.Palmes:
                     price = playerData.palmLevelPrice[playerData.palmLevel];
-                    newItemLine.SetItem(null, "Palmes upgrade", price.ToString(), () => BuyUpgrade(UpgradeType.Palmes));
+                    if(playerData.palmLevel == playerData.palmLevelPrice.Length - 1)
+                    {
+                        newItemLine.SetItem(null, "Palmes upgrade", "Max level", () => { });
+                    }
+                    else
+                    {
+                        newItemLine.SetItem(null, "Palmes upgrade", price.ToString(), () => BuyUpgrade(UpgradeType.Palmes));
+                    }
                     break;
             }
         }
@@ -187,11 +215,11 @@ public class ShopManager : MonoBehaviour
         }
 
         // Si le joueur n'a pas assez d'argent, on ne fait rien
-        if (playerData.money < playerData.netLevelPrice[playerData.netLevel])
+        if (playerData.money < price)
         {
             return;
         }
-        playerData.money -= playerData.netLevelPrice[playerData.netLevel];
+        playerData.money -= price;
         switch (upgradeType)
         {
             case UpgradeType.Net:

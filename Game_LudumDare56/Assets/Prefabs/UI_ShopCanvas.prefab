@@ -388,7 +388,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debugFish: {fileID: 11400000, guid: 1cc11a2d89b6e47419ab943220bb7e94, type: 2}
   shopScreen: {fileID: 4882866055895384104}
-  itemLinePrefab: {fileID: 45366331383704887, guid: 6576a165d7e71c240a0166b975ee8cd5, type: 3}
+  itemLinePrefab: {fileID: 8151284215552491942, guid: 6576a165d7e71c240a0166b975ee8cd5, type: 3}
   contentPanel: {fileID: 1789752788195015462}
   moneyIcon: {fileID: 7215097029255522109}
   moneyText: {fileID: 6919018401149357916}

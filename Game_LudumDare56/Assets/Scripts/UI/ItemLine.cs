@@ -1,31 +1,32 @@
 using TMPro;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using System.Collections;
+using System.Collections.Generic;
 
 public class ItemLine : MonoBehaviour
 {
     public Image objectSprite;
-    public Text objectName;
-    public Text objectPrice;
+    public TextMeshProUGUI itemName;
+    public TextMeshProUGUI itemPrice;
     public Button actionButton;
 
     public void SetItem(FishItem fishItem, UnityAction action)
     {
-        objectName.text = fishItem.data.specieName;
+        itemName.text = fishItem.data.specieName;
         objectSprite.sprite = fishItem.data.sprite;
-        objectPrice.text = fishItem.Price.ToString() + " €";
+        itemPrice.text = fishItem.Price.ToString() + " €";
 
         actionButton.onClick.RemoveAllListeners();
         actionButton.onClick.AddListener(action);
     }
     public void SetItem(Sprite icon, string description, string price, UnityAction action)
     {
-        objectName.text = description;
-        objectSprite.sprite = icon;
-        objectPrice.text = price + " €";
+        if (icon != null) objectSprite.sprite = icon;
+
+        itemName.text = description;
+        itemPrice.text = price + " €";
 
         actionButton.onClick.RemoveAllListeners();
         actionButton.onClick.AddListener(action);
