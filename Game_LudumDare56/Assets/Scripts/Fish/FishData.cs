@@ -12,9 +12,5 @@ public class FishData : ScriptableObject
 
     [Range(60, 240)]
     public float defaultFreshness;
-
-    [MinMaxSlider(20, 60)]
-    public Vector2Int minMaxSize;
-    [MinMaxSlider(500, 3000)]
-    public Vector2Int minMaxWeight;
+    public int basePrice = 10;
 }

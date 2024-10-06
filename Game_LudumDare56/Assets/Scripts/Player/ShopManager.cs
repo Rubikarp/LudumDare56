@@ -1,15 +1,28 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+using NaughtyAttributes;
 using System.Collections.Generic;
 
 public class ShopManager : MonoBehaviour
 {
+    private PlayerData playerData;
+    [SerializeField]
+    private FishData debugFish;
     public InventoryManager inventoryManager; // Référence à InventoryManager
-    public GameObject shopUI; // Référence à l'UI de la boutique
+
+    [HorizontalLine]
+    public GameObject shopScreen; // Référence à l'UI de la boutique
+
+    [Header("Content")]
     public GameObject itemLinePrefab; // Préfab pour une ligne d'item (à acheter/vendre)
     public Transform contentPanel; // Référence au panel où les items sont affichés
+
+    [Header("Money Display")]
+    public Image moneyIcon; // Icône pour l'argent
     public TextMeshProUGUI moneyText; // Texte pour afficher l'argent du joueur
+
+    [Header("Buy/Sell Buttons")]
     public Toggle buyButton; // Bouton pour "Buy"
     public Toggle sellButton; // Bouton pour "Sell"
 
@@ -18,8 +31,11 @@ public class ShopManager : MonoBehaviour
 
     void Start()
     {
+        playerData = PlayerData.Instance;
+        inventoryManager = InventoryManager.Instance;
+
         UpdateMoneyDisplay(); // Affiche l'argent dès le départ
-        PopulateContent();
+        RedrawItemLines();
         ShowBuyItems(); // Par défaut, afficher les items à vendre
     }
 
@@ -33,22 +49,21 @@ public class ShopManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.M))
         {
             Debug.Log("Touche M appuyée");
-            Sprite fishImage = Resources.Load<Sprite>("Images/PacFish");
-            InventoryManager.Fish newFish = new InventoryManager.Fish("PacFish", 50, fishImage);
+            var newFish = new FishItem(debugFish);
             inventoryManager.AddFish(newFish);
-            PopulateContent();
+            RedrawItemLines();
         }
 
         if (Input.GetKeyDown(KeyCode.P))
         {
-            inventoryManager.AddMoney(100);
+            playerData.money += 100;
             UpdateMoneyDisplay();
         }
 
         if (Input.GetKeyDown(KeyCode.V))
         {
-            inventoryManager.SellFirstItem();
-            PopulateContent();
+            SellItem(inventoryManager.fishCaught[0]);
+            RedrawItemLines();
         }
 
     }
@@ -57,7 +72,7 @@ public class ShopManager : MonoBehaviour
     public void ToggleShop()
     {
         shopIsOpen = !shopIsOpen;
-        shopUI.SetActive(shopIsOpen);
+        shopScreen.SetActive(shopIsOpen);
 
         if (shopIsOpen)
         {
@@ -73,7 +88,7 @@ public class ShopManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None; // Libère le curseur
         Cursor.visible = true; // Affiche le curseur
-        PopulateContent(); // Remplir le contenu selon l'état (Buy/Sell)
+        RedrawItemLines(); // Remplir le contenu selon l'état (Buy/Sell)
     }
 
     void CloseShop()
@@ -88,7 +103,7 @@ public class ShopManager : MonoBehaviour
         isBuyMode = true; // Passer en mode "Buy"
         buyButton.interactable = false; // Désactive le bouton "Buy" (déjà sélectionné)
         sellButton.interactable = true; // Active le bouton "Sell"
-        PopulateContent(); // Remplit la liste avec les items à acheter
+        RedrawItemLines(); // Remplit la liste avec les items à acheter
     }
 
     public void ShowSellItems()
@@ -96,11 +111,11 @@ public class ShopManager : MonoBehaviour
         isBuyMode = false; // Passer en mode "Sell"
         buyButton.interactable = true; // Active le bouton "Buy"
         sellButton.interactable = false; // Désactive le bouton "Sell" (déjà sélectionné)
-        PopulateContent(); // Remplit la liste avec les items à vendre
+        RedrawItemLines(); // Remplit la liste avec les items à vendre
     }
 
     // Méthode pour remplir le contenu du magasin selon l'état (Buy ou Sell)
-    void PopulateContent()
+    void RedrawItemLines()
     {
         // Vider les éléments actuels
         foreach (Transform child in contentPanel)
@@ -122,7 +137,7 @@ public class ShopManager : MonoBehaviour
         else
         {
             // Obtenir les objets à vendre (ceux qui sont dans l'inventaire du joueur)
-            List<InventoryManager.ISellable> sellableItems = inventoryManager.GetSellableItems();
+            List<FishItem> sellableItems = inventoryManager.fishCaught;
             foreach (var item in sellableItems)
             {
                 GameObject newItemLine = Instantiate(itemLinePrefab, contentPanel);
@@ -132,9 +147,9 @@ public class ShopManager : MonoBehaviour
                 Button sellButton = newItemLine.transform.Find("Button").GetComponent<Button>();
 
                 // Mise à jour du texte et de l'image de l'item
-                itemName.text = item.Name;
-                itemPrice.text = item.SellPrice + "€";
-                itemImage.sprite = item is InventoryManager.Fish ? (item as InventoryManager.Fish).Image : null; // Assigner l'image
+                itemName.text = item.data.specieName;
+                itemPrice.text = item.Price + "€";
+                itemImage.sprite = item.data.sprite; // Assigner l'image
 
                 // Adapter le texte du bouton et l'action au mode "Sell"
                 sellButton.GetComponentInChildren<TextMeshProUGUI>().text = "Sell";
@@ -165,9 +180,9 @@ public class ShopManager : MonoBehaviour
     // Achat d'un item (cette méthode devra être modifiée selon la logique d'achat)
     void BuyItem(string itemName, int price)
     {
-        if (inventoryManager.playerMoney >= price)
+        if (playerData.money >= price)
         {
-            inventoryManager.AddMoney(-price); // Retirer l'argent
+            playerData.money -= price; // Retirer l'argent
             UpdateMoneyDisplay(); // Mettre à jour l'affichage de l'argent
             Debug.Log("Acheté : " + itemName);
         }
@@ -178,16 +193,18 @@ public class ShopManager : MonoBehaviour
     }
 
     // Vente d'un objet
-    public void SellItem(InventoryManager.ISellable item)
+    public void SellItem(FishItem fishItem)
     {
-        inventoryManager.SellItem(item as InventoryManager.IGameItem); // Vente de l'objet
-        PopulateContent(); // Mise à jour de la liste
+        inventoryManager.RemoveFish(fishItem); // Retirer l'item de l'inventaire
+        playerData.money += fishItem.Price; // Retirer l'argent
+
+        RedrawItemLines(); // Mise à jour de la liste
         UpdateMoneyDisplay(); // Mise à jour de l'affichage de l'argent
     }
 
     // Mise à jour de l'affichage de l'argent du joueur
     void UpdateMoneyDisplay()
     {
-        moneyText.text = inventoryManager.playerMoney + "€";
+        moneyText.text = playerData.money + " €";
     }
 }

@@ -1,23 +1,22 @@
-using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
-using NaughtyAttributes;
 
-public class InventoryManager : MonoBehaviour
+public class InventoryManager : SingletonMonoBehaviour<InventoryManager>
 {
     private PlayerData playerData;
     public List<FishItem> fishCaught = new List<FishItem>();
 
-    // Type d'objet � vendre
-    [System.Serializable]
-    public enum ItemType
+    protected override void Awake()
     {
+        base.Awake();
+
         playerData = PlayerData.Instance;
         PlayerNet.onFishCaught += AddFish;
     }
 
-    private void AddFish(FishItem fishItem)
+    public void AddFish(FishItem fishItem)
     {
         if(fishCaught.Count >= playerData.defaultCapacity)
         {
@@ -28,13 +27,18 @@ public class InventoryManager : MonoBehaviour
         fishCaught.Add(fishItem);
         UpdateHUD();
     }
-
-    private void Update()
+    public void RemoveFish(FishItem fishItem)
     {
-
+        if(!fishCaught.Contains(fishItem))
+        {
+            Debug.LogWarning("Fish not found in inventory");
+            return;
+        }
+        fishCaught.Remove(fishItem);
+        UpdateHUD();
     }
 
-    public void UpdateHUD()
+    private void UpdateHUD()
     {
 
     }
@@ -44,20 +48,19 @@ public class InventoryManager : MonoBehaviour
 public class FishItem
 {
     public FishData data;
-    public readonly int weight;
-    public readonly int length;
-
     public float caughtTime;
 
-    [ShowNativeProperty]
-    public int Price => Mathf.CeilToInt(weight * length * .1f);
-
+    public int Price
+    {
+        get
+        {
+            var freshness = Mathf.Clamp01(1 - (Time.time - caughtTime) / data.defaultFreshness);
+            return data.basePrice;
+        }
+    }
     public FishItem(FishData data)
     {
         this.data = data;
-        this.weight = Random.Range(data.minMaxWeight.x, data.minMaxWeight.y);
-        this.length = Random.Range(data.minMaxSize.x, data.minMaxSize.y);
-
         caughtTime = Time.time;
     }
 }
