@@ -1,8 +1,8 @@
+using UnityEngine;
+using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.SceneManagement;
-using NaughtyAttributes;
 
 public class MainMenuHandler : MonoBehaviour
 {
@@ -28,6 +28,7 @@ public class MainMenuHandler : MonoBehaviour
 
     public void Quitter()
     {
+#if UNITY_EDITOR
         if (Application.isEditor)
         {
             UnityEditor.EditorApplication.isPlaying = false;
@@ -36,5 +37,8 @@ public class MainMenuHandler : MonoBehaviour
         {
             Application.Quit();
         }
+        return;
+#endif
+        Application.Quit();
     }
 }
