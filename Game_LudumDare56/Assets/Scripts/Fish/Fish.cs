@@ -38,9 +38,9 @@ public class Fish : MonoBehaviour
 
 public enum FishSpecies
 {
-    Pike,
-    Carp,
-    Trout,
-    Salmon,
-    Catfish,
+    CraftFish,
+    PacFish,
+    OrigamiFish,
+    IlluminatiFish,
+    ChadFish,
 }
