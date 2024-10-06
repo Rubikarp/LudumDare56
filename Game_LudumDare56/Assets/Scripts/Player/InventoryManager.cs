@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -43,8 +44,9 @@ public class FishItem
     public readonly int weight;
     public readonly int length;
 
-    public bool isCaught;
     public float caughtTime;
+
+    [ShowNativeProperty]
     public int Price => Mathf.CeilToInt(weight * length * .1f);
 
     public FishItem(FishData data)
@@ -53,7 +55,6 @@ public class FishItem
         this.weight = Random.Range(data.minMaxWeight.x, data.minMaxWeight.y);
         this.length = Random.Range(data.minMaxSize.x, data.minMaxSize.y);
 
-        isCaught = false;
-        caughtTime = 0;
+        caughtTime = Time.time;
     }
 }

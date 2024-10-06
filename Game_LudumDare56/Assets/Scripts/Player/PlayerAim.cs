@@ -3,17 +3,26 @@ using DG.Tweening;
 using UnityEngine;
 using System.Collections;
 using UnityEngine.Events;
+using NaughtyAttributes;
 
 
 public class PlayerAim : MonoBehaviour
 {
     [SerializeField] private Transform aimTransform;
-    [SerializeField] private PlayerNet netPrefab;
+    [SerializeField] private PlayerNet net;
 
     [SerializeField] private float netLaunchDuration = 1f;
     [SerializeField] private float netRadius = 1f;
     [SerializeField] private float netDistance = 5f;
     [SerializeField] private float netCoolDown = 5f;
+    [HorizontalLine]
+    [SerializeField] private Ease launchScaleEsae  = Ease.InBack;
+    [SerializeField] private Ease retrieveScaleEsae  = Ease.InBack;
+    [Space]
+    [SerializeField] private Ease launchMoveEsae = Ease.InBack;
+    [SerializeField] private Ease retrieveMoveEsae = Ease.InBack;
+
+
 
     public Vector3 AimDirection { get; private set; }
     public Vector3 AimWorldPos { get; private set; }
@@ -69,67 +78,39 @@ public class PlayerAim : MonoBehaviour
             Debug.Log("Net is on cooldown");
             return;
         }
-        lauchNetCoroutine = StartCoroutine(LauchNetCoroutine());
+        var coroutine = LauchNetCoroutine(netLaunchDuration, netDistance, netRadius);
+        lauchNetCoroutine = StartCoroutine(coroutine);
     }
 
-    private IEnumerator LauchNetCoroutine()
+    private IEnumerator LauchNetCoroutine(float launchDur, float launchDist, float netScale)
     {
         launchNetPos = aimTransform.position;
-        aimNetPos = launchNetPos + AimDirection.normalized * netDistance;
+        aimNetPos = launchNetPos + AimDirection.normalized * launchDist;
 
-        var net = Instantiate(netPrefab, launchNetPos, Quaternion.identity);
-
-        net.transform.position = launchNetPos;
-        net.transform.localScale = Vector3.zero;
+        net.gameObject.SetActive(true);
+        net.transform.position = aimTransform.position;
+        net.transform.localScale = Vector3.one * .25f;
 
         var netLaunchSequence = DOTween.Sequence();
 
-        netLaunchSequence.Append(net.transform.DOMove(aimNetPos, netLaunchDuration).SetEase(Ease.OutCirc));
-        netLaunchSequence.Join(net.transform.DOScale(Vector3.one, netLaunchDuration).SetEase(Ease.InSine));
+        netLaunchSequence.Append(net.transform.DOMove(aimNetPos, launchDur).SetEase(launchMoveEsae));
+        netLaunchSequence.Join(net.transform.DOScale(Vector3.one * netScale, launchDur).SetEase(launchScaleEsae));
 
         netLaunchSequence.Play();
         yield return netLaunchSequence.WaitForCompletion();
 
         var netRetractSequence = DOTween.Sequence();
 
-        netRetractSequence.Append(net.transform.DOMove(aimTransform.position, .3f).SetEase(Ease.OutCirc));
-        netRetractSequence.Join(net.transform.DOScale(Vector3.zero, .3f).SetEase(Ease.InExpo));
+        netRetractSequence.Append(net.transform.DOMove(aimTransform.position, .3f).SetEase(retrieveMoveEsae));
+        netRetractSequence.Join(net.transform.DOScale(Vector3.zero, .3f).SetEase(retrieveScaleEsae));
 
         netRetractSequence.Play();
         yield return netRetractSequence.WaitForCompletion();
 
 
         yield return new WaitForSeconds(netCoolDown);
+
+        net.gameObject.SetActive(false);
         lauchNetCoroutine = null;
     }
-}
-
-[RequireComponent(typeof(CircleCollider2D))]
-public class PlayerNet : MonoBehaviour
-{
-    public static UnityAction<FishItem> onFishCaught;
-
-    private CircleCollider2D netCollider;
-    private Transform netSkin;
-
-    private void Awake()
-    {
-        netCollider = GetComponent<CircleCollider2D>();
-        netCollider.isTrigger = true;
-    }
-
-    public void Init(float radius)
-    {
-        netCollider.radius = 1f;
-        netSkin.localScale = Vector3.one * radius;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.TryGetComponent(out Fish fish))
-        {
-            var fishItem = fish.CatchFish();
-        }
-    }
-
 }
