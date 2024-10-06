@@ -1,12 +1,14 @@
 using UnityEngine;
-using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class PlayerInventory : SingletonMonoBehaviour<PlayerInventory>
 {
     private PlayerData playerData;
     public List<FishItem> fishCaught = new List<FishItem>();
+    public List<InventoryCase> inventoryCase = new List<InventoryCase>();
 
     protected override void Awake()
     {
@@ -38,9 +40,24 @@ public class PlayerInventory : SingletonMonoBehaviour<PlayerInventory>
         UpdateHUD();
     }
 
-    private void UpdateHUD()
+    private void Update()
     {
-
+        UpdateHUD();
+    }
+    public void UpdateHUD()
+    {
+        for (int i = 0; i < inventoryCase.Count; i++)
+        {
+            if(i < fishCaught.Count)
+            {
+                inventoryCase[i].gameObject.SetActive(true);
+                inventoryCase[i].SetFishItem(fishCaught[i]);
+            }
+            else
+            {
+                inventoryCase[i].gameObject.SetActive(false);
+            }
+        }
     }
 }
 
