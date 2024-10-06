@@ -551,9 +551,9 @@ GameObject:
   - component: {fileID: 1245263052825382985}
   - component: {fileID: 4688559951890684860}
   - component: {fileID: 7461497585982548637}
+  - component: {fileID: 1542663230490889981}
   - component: {fileID: 4110097235068973528}
   - component: {fileID: 8188231044882680243}
-  - component: {fileID: 169004764160462684}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -642,6 +642,20 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 2}
   m_Direction: 0
+--- !u!114 &1542663230490889981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7973218262036717143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da880ae97ef76e24081a2343b3e3c0b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerAreas: []
+  interactionKey: 101
 --- !u!114 &4110097235068973528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -669,33 +683,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aimTransform: {fileID: 5224422765033021810}
   net: {fileID: 6411924789013202297}
-  netLaunchDuration: 1.5
-  netRadius: 2
-  netDistance: 10
-  netCoolDown: 0.5
-  launchScaleEsae: 1
-  retrieveScaleEsae: 3
-  launchMoveEsae: 3
-  retrieveMoveEsae: 2
+  netData:
+    launchDuration: 1
+    launchDistance: 8
+    captureRadius: 2
+    useCoolDown: 0.5
+    launchScaleEsae: 4
+    retrieveScaleEsae: 2
+    launchMoveEsae: 3
+    retrieveMoveEsae: 5
   onLeftClick:
     m_PersistentCalls:
       m_Calls: []
   onRightClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &169004764160462684
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7973218262036717143}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2601c72fe3ea8ec43bd5b75451774080, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fishCaught: []
 --- !u!1 &8262676157620478087
 GameObject:
   m_ObjectHideFlags: 0

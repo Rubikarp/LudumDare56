@@ -11,18 +11,7 @@ public class PlayerAim : MonoBehaviour
     [SerializeField] private Transform aimTransform;
     [SerializeField] private PlayerNet net;
 
-    [SerializeField] private float netLaunchDuration = 1f;
-    [SerializeField] private float netRadius = 1f;
-    [SerializeField] private float netDistance = 5f;
-    [SerializeField] private float netCoolDown = 5f;
-    [HorizontalLine]
-    [SerializeField] private Ease launchScaleEsae  = Ease.InBack;
-    [SerializeField] private Ease retrieveScaleEsae  = Ease.InBack;
-    [Space]
-    [SerializeField] private Ease launchMoveEsae = Ease.InBack;
-    [SerializeField] private Ease retrieveMoveEsae = Ease.InBack;
-
-
+    [SerializeField] private Netdata netData;
 
     public Vector3 AimDirection { get; private set; }
     public Vector3 AimWorldPos { get; private set; }
@@ -78,14 +67,14 @@ public class PlayerAim : MonoBehaviour
             Debug.Log("Net is on cooldown");
             return;
         }
-        var coroutine = LauchNetCoroutine(netLaunchDuration, netDistance, netRadius);
+        var coroutine = LauchNetCoroutine(netData);
         lauchNetCoroutine = StartCoroutine(coroutine);
     }
 
-    private IEnumerator LauchNetCoroutine(float launchDur, float launchDist, float netScale)
+    private IEnumerator LauchNetCoroutine(Netdata netdata)
     {
         launchNetPos = aimTransform.position;
-        aimNetPos = launchNetPos + AimDirection.normalized * launchDist;
+        aimNetPos = launchNetPos + AimDirection.normalized * netdata.launchDistance;
 
         net.gameObject.SetActive(true);
         net.transform.position = aimTransform.position;
@@ -93,24 +82,40 @@ public class PlayerAim : MonoBehaviour
 
         var netLaunchSequence = DOTween.Sequence();
 
-        netLaunchSequence.Append(net.transform.DOMove(aimNetPos, launchDur).SetEase(launchMoveEsae));
-        netLaunchSequence.Join(net.transform.DOScale(Vector3.one * netScale, launchDur).SetEase(launchScaleEsae));
+        netLaunchSequence.Append(net.transform.DOMove(aimNetPos, netdata.launchDuration).SetEase(netData.launchMoveEsae));
+        netLaunchSequence.Join(net.transform.DOScale(Vector3.one * netdata.captureRadius, netdata.launchDuration).SetEase(netdata.launchScaleEsae));
 
         netLaunchSequence.Play();
         yield return netLaunchSequence.WaitForCompletion();
 
         var netRetractSequence = DOTween.Sequence();
 
-        netRetractSequence.Append(net.transform.DOMove(aimTransform.position, .3f).SetEase(retrieveMoveEsae));
-        netRetractSequence.Join(net.transform.DOScale(Vector3.zero, .3f).SetEase(retrieveScaleEsae));
+        netRetractSequence.Append(net.transform.DOMove(aimTransform.position, .3f).SetEase(netdata.retrieveMoveEsae));
+        netRetractSequence.Join(net.transform.DOScale(Vector3.zero, .3f).SetEase(netdata.retrieveScaleEsae));
 
         netRetractSequence.Play();
         yield return netRetractSequence.WaitForCompletion();
 
 
-        yield return new WaitForSeconds(netCoolDown);
+        yield return new WaitForSeconds(netdata.useCoolDown);
 
         net.gameObject.SetActive(false);
         lauchNetCoroutine = null;
     }
+}
+
+[Serializable]
+public class Netdata
+{
+    public float launchDuration;
+    public float launchDistance;
+    public float captureRadius;
+    public float useCoolDown;
+    [HorizontalLine]
+    public Ease launchScaleEsae = Ease.InOutSine;
+    public Ease retrieveScaleEsae = Ease.InOutSine;
+    [Space]
+    public Ease launchMoveEsae = Ease.InOutSine;
+    public Ease retrieveMoveEsae = Ease.InOutSine;
+
 }

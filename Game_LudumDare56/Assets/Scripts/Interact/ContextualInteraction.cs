@@ -6,9 +6,11 @@ public class ContextualInteraction : MonoBehaviour
 {
     [SerializeField] private List<TriggerArea2D> triggerAreas;
 
+    public KeyCode interactionKey = KeyCode.E;
+
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(interactionKey))
         {
             InteractWithObject();
         }
