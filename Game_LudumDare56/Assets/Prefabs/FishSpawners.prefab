@@ -96,11 +96,15 @@ MonoBehaviour:
   maxObjects: 10
   spawnableObjects:
   - fishData: {fileID: 11400000, guid: 1cc11a2d89b6e47419ab943220bb7e94, type: 2}
-    spawnChance: 38.0133
+    spawnChance: 50
   - fishData: {fileID: 11400000, guid: 699c32b68f0f0e6438921a3b3d342499, type: 2}
-    spawnChance: 20.914213
+    spawnChance: 25
   - fishData: {fileID: 11400000, guid: bbafc30033f63d546a8c2cfb2b4a7235, type: 2}
-    spawnChance: 41.07248
+    spawnChance: 15
+  - fishData: {fileID: 11400000, guid: 63127d5c226bdde4f9617e61a82bd953, type: 2}
+    spawnChance: 7.5
+  - fishData: {fileID: 11400000, guid: 52d0461601ccf1d4c984333665370853, type: 2}
+    spawnChance: 2.5
   spawnedObjects: []
   spawnInterval: 2
   spawnArea: {fileID: 8292077953795505427}
@@ -425,11 +429,15 @@ MonoBehaviour:
   maxObjects: 10
   spawnableObjects:
   - fishData: {fileID: 11400000, guid: 1cc11a2d89b6e47419ab943220bb7e94, type: 2}
-    spawnChance: 38.0133
+    spawnChance: 50
   - fishData: {fileID: 11400000, guid: 699c32b68f0f0e6438921a3b3d342499, type: 2}
-    spawnChance: 20.914213
+    spawnChance: 25
   - fishData: {fileID: 11400000, guid: bbafc30033f63d546a8c2cfb2b4a7235, type: 2}
-    spawnChance: 41.07248
+    spawnChance: 15
+  - fishData: {fileID: 11400000, guid: 63127d5c226bdde4f9617e61a82bd953, type: 2}
+    spawnChance: 7.5
+  - fishData: {fileID: 11400000, guid: 52d0461601ccf1d4c984333665370853, type: 2}
+    spawnChance: 2.5
   spawnedObjects: []
   spawnInterval: 2
   spawnArea: {fileID: 5305794425416895591}
@@ -461,7 +469,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 93.7, y: 3.6, z: 0}
-  m_LocalScale: {x: 0.704375, y: 0.3125, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4856453067697176665}
@@ -485,9 +493,15 @@ MonoBehaviour:
   maxObjects: 10
   spawnableObjects:
   - fishData: {fileID: 11400000, guid: 1cc11a2d89b6e47419ab943220bb7e94, type: 2}
-    spawnChance: 64.508575
+    spawnChance: 50
   - fishData: {fileID: 11400000, guid: 699c32b68f0f0e6438921a3b3d342499, type: 2}
-    spawnChance: 35.49142
+    spawnChance: 25
+  - fishData: {fileID: 11400000, guid: bbafc30033f63d546a8c2cfb2b4a7235, type: 2}
+    spawnChance: 15
+  - fishData: {fileID: 11400000, guid: 63127d5c226bdde4f9617e61a82bd953, type: 2}
+    spawnChance: 7.5
+  - fishData: {fileID: 11400000, guid: 52d0461601ccf1d4c984333665370853, type: 2}
+    spawnChance: 2.5
   spawnedObjects: []
   spawnInterval: 2
   spawnArea: {fileID: 7264795041666164149}
@@ -858,11 +872,15 @@ MonoBehaviour:
   maxObjects: 10
   spawnableObjects:
   - fishData: {fileID: 11400000, guid: 1cc11a2d89b6e47419ab943220bb7e94, type: 2}
-    spawnChance: 38.0133
+    spawnChance: 50
   - fishData: {fileID: 11400000, guid: 699c32b68f0f0e6438921a3b3d342499, type: 2}
-    spawnChance: 20.914213
+    spawnChance: 25
   - fishData: {fileID: 11400000, guid: bbafc30033f63d546a8c2cfb2b4a7235, type: 2}
-    spawnChance: 41.07248
+    spawnChance: 15
+  - fishData: {fileID: 11400000, guid: 63127d5c226bdde4f9617e61a82bd953, type: 2}
+    spawnChance: 7.5
+  - fishData: {fileID: 11400000, guid: 52d0461601ccf1d4c984333665370853, type: 2}
+    spawnChance: 2.5
   spawnedObjects: []
   spawnInterval: 2
   spawnArea: {fileID: 1710430199547767683}
@@ -963,11 +981,15 @@ MonoBehaviour:
   maxObjects: 10
   spawnableObjects:
   - fishData: {fileID: 11400000, guid: 1cc11a2d89b6e47419ab943220bb7e94, type: 2}
-    spawnChance: 38.013306
+    spawnChance: 50
   - fishData: {fileID: 11400000, guid: 699c32b68f0f0e6438921a3b3d342499, type: 2}
-    spawnChance: 20.914215
+    spawnChance: 25
   - fishData: {fileID: 11400000, guid: bbafc30033f63d546a8c2cfb2b4a7235, type: 2}
-    spawnChance: 41.072483
+    spawnChance: 15
+  - fishData: {fileID: 11400000, guid: 63127d5c226bdde4f9617e61a82bd953, type: 2}
+    spawnChance: 7.5
+  - fishData: {fileID: 11400000, guid: 52d0461601ccf1d4c984333665370853, type: 2}
+    spawnChance: 2.5
   spawnedObjects: []
   spawnInterval: 2
   spawnArea: {fileID: 3882242650647404559}
@@ -1023,11 +1045,15 @@ MonoBehaviour:
   maxObjects: 10
   spawnableObjects:
   - fishData: {fileID: 11400000, guid: 1cc11a2d89b6e47419ab943220bb7e94, type: 2}
-    spawnChance: 38.0133
+    spawnChance: 50
   - fishData: {fileID: 11400000, guid: 699c32b68f0f0e6438921a3b3d342499, type: 2}
-    spawnChance: 20.914213
+    spawnChance: 25
   - fishData: {fileID: 11400000, guid: bbafc30033f63d546a8c2cfb2b4a7235, type: 2}
-    spawnChance: 41.07248
+    spawnChance: 15
+  - fishData: {fileID: 11400000, guid: 63127d5c226bdde4f9617e61a82bd953, type: 2}
+    spawnChance: 7.5
+  - fishData: {fileID: 11400000, guid: 52d0461601ccf1d4c984333665370853, type: 2}
+    spawnChance: 2.5
   spawnedObjects: []
   spawnInterval: 2
   spawnArea: {fileID: 4186673113247980354}
@@ -1149,7 +1175,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 93.7, y: -24.8, z: 0}
-  m_LocalScale: {x: 0.704375, y: 0.3125, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1644914267540555712}
@@ -1173,9 +1199,15 @@ MonoBehaviour:
   maxObjects: 10
   spawnableObjects:
   - fishData: {fileID: 11400000, guid: 1cc11a2d89b6e47419ab943220bb7e94, type: 2}
-    spawnChance: 64.508575
+    spawnChance: 50
   - fishData: {fileID: 11400000, guid: 699c32b68f0f0e6438921a3b3d342499, type: 2}
-    spawnChance: 35.49142
+    spawnChance: 25
+  - fishData: {fileID: 11400000, guid: bbafc30033f63d546a8c2cfb2b4a7235, type: 2}
+    spawnChance: 15
+  - fishData: {fileID: 11400000, guid: 63127d5c226bdde4f9617e61a82bd953, type: 2}
+    spawnChance: 7.5
+  - fishData: {fileID: 11400000, guid: 52d0461601ccf1d4c984333665370853, type: 2}
+    spawnChance: 2.5
   spawnedObjects: []
   spawnInterval: 2
   spawnArea: {fileID: 7181944871227750950}
@@ -1321,11 +1353,15 @@ MonoBehaviour:
   maxObjects: 10
   spawnableObjects:
   - fishData: {fileID: 11400000, guid: 1cc11a2d89b6e47419ab943220bb7e94, type: 2}
-    spawnChance: 38.0133
+    spawnChance: 50
   - fishData: {fileID: 11400000, guid: 699c32b68f0f0e6438921a3b3d342499, type: 2}
-    spawnChance: 20.914213
+    spawnChance: 25
   - fishData: {fileID: 11400000, guid: bbafc30033f63d546a8c2cfb2b4a7235, type: 2}
-    spawnChance: 41.07248
+    spawnChance: 15
+  - fishData: {fileID: 11400000, guid: 63127d5c226bdde4f9617e61a82bd953, type: 2}
+    spawnChance: 7.5
+  - fishData: {fileID: 11400000, guid: 52d0461601ccf1d4c984333665370853, type: 2}
+    spawnChance: 2.5
   spawnedObjects: []
   spawnInterval: 2
   spawnArea: {fileID: 9012641120999959058}
@@ -1381,11 +1417,15 @@ MonoBehaviour:
   maxObjects: 10
   spawnableObjects:
   - fishData: {fileID: 11400000, guid: 1cc11a2d89b6e47419ab943220bb7e94, type: 2}
-    spawnChance: 38.0133
+    spawnChance: 50
   - fishData: {fileID: 11400000, guid: 699c32b68f0f0e6438921a3b3d342499, type: 2}
-    spawnChance: 20.914213
+    spawnChance: 25
   - fishData: {fileID: 11400000, guid: bbafc30033f63d546a8c2cfb2b4a7235, type: 2}
-    spawnChance: 41.07248
+    spawnChance: 15
+  - fishData: {fileID: 11400000, guid: 63127d5c226bdde4f9617e61a82bd953, type: 2}
+    spawnChance: 7.5
+  - fishData: {fileID: 11400000, guid: 52d0461601ccf1d4c984333665370853, type: 2}
+    spawnChance: 2.5
   spawnedObjects: []
   spawnInterval: 2
   spawnArea: {fileID: 900928003521906707}
@@ -1441,11 +1481,15 @@ MonoBehaviour:
   maxObjects: 10
   spawnableObjects:
   - fishData: {fileID: 11400000, guid: 1cc11a2d89b6e47419ab943220bb7e94, type: 2}
-    spawnChance: 38.0133
+    spawnChance: 50
   - fishData: {fileID: 11400000, guid: 699c32b68f0f0e6438921a3b3d342499, type: 2}
-    spawnChance: 20.914213
+    spawnChance: 25
   - fishData: {fileID: 11400000, guid: bbafc30033f63d546a8c2cfb2b4a7235, type: 2}
-    spawnChance: 41.07248
+    spawnChance: 15
+  - fishData: {fileID: 11400000, guid: 63127d5c226bdde4f9617e61a82bd953, type: 2}
+    spawnChance: 7.5
+  - fishData: {fileID: 11400000, guid: 52d0461601ccf1d4c984333665370853, type: 2}
+    spawnChance: 2.5
   spawnedObjects: []
   spawnInterval: 2
   spawnArea: {fileID: 860943888615710355}
@@ -1591,9 +1635,15 @@ MonoBehaviour:
   maxObjects: 10
   spawnableObjects:
   - fishData: {fileID: 11400000, guid: 1cc11a2d89b6e47419ab943220bb7e94, type: 2}
-    spawnChance: 64.508575
+    spawnChance: 50
   - fishData: {fileID: 11400000, guid: 699c32b68f0f0e6438921a3b3d342499, type: 2}
-    spawnChance: 35.49142
+    spawnChance: 25
+  - fishData: {fileID: 11400000, guid: bbafc30033f63d546a8c2cfb2b4a7235, type: 2}
+    spawnChance: 15
+  - fishData: {fileID: 11400000, guid: 63127d5c226bdde4f9617e61a82bd953, type: 2}
+    spawnChance: 7.5
+  - fishData: {fileID: 11400000, guid: 52d0461601ccf1d4c984333665370853, type: 2}
+    spawnChance: 2.5
   spawnedObjects: []
   spawnInterval: 2
   spawnArea: {fileID: 149254227777697978}
@@ -1694,11 +1744,15 @@ MonoBehaviour:
   maxObjects: 10
   spawnableObjects:
   - fishData: {fileID: 11400000, guid: 1cc11a2d89b6e47419ab943220bb7e94, type: 2}
-    spawnChance: 38.013306
+    spawnChance: 50
   - fishData: {fileID: 11400000, guid: 699c32b68f0f0e6438921a3b3d342499, type: 2}
-    spawnChance: 20.914215
+    spawnChance: 25
   - fishData: {fileID: 11400000, guid: bbafc30033f63d546a8c2cfb2b4a7235, type: 2}
-    spawnChance: 41.072483
+    spawnChance: 15
+  - fishData: {fileID: 11400000, guid: 63127d5c226bdde4f9617e61a82bd953, type: 2}
+    spawnChance: 7.5
+  - fishData: {fileID: 11400000, guid: 52d0461601ccf1d4c984333665370853, type: 2}
+    spawnChance: 2.5
   spawnedObjects: []
   spawnInterval: 2
   spawnArea: {fileID: 2355886309378095141}
@@ -1775,7 +1829,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 68.1, y: 3.6, z: 0}
-  m_LocalScale: {x: 0.704375, y: 0.3125, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5495223917869228239}
@@ -1799,9 +1853,15 @@ MonoBehaviour:
   maxObjects: 3
   spawnableObjects:
   - fishData: {fileID: 11400000, guid: 1cc11a2d89b6e47419ab943220bb7e94, type: 2}
-    spawnChance: 64.508575
+    spawnChance: 50
   - fishData: {fileID: 11400000, guid: 699c32b68f0f0e6438921a3b3d342499, type: 2}
-    spawnChance: 35.49142
+    spawnChance: 25
+  - fishData: {fileID: 11400000, guid: bbafc30033f63d546a8c2cfb2b4a7235, type: 2}
+    spawnChance: 15
+  - fishData: {fileID: 11400000, guid: 63127d5c226bdde4f9617e61a82bd953, type: 2}
+    spawnChance: 7.5
+  - fishData: {fileID: 11400000, guid: 52d0461601ccf1d4c984333665370853, type: 2}
+    spawnChance: 2.5
   spawnedObjects: []
   spawnInterval: 2
   spawnArea: {fileID: 1004248479249801755}

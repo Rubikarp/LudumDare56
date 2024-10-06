@@ -8,6 +8,8 @@ public class PlayerInventory : SingletonMonoBehaviour<PlayerInventory>
 {
     private PlayerData playerData;
     public List<FishItem> fishCaught = new List<FishItem>();
+
+    public List<Image> background = new List<Image>();
     public List<InventoryCase> inventoryCase = new List<InventoryCase>();
 
     protected override void Awake()
@@ -56,6 +58,18 @@ public class PlayerInventory : SingletonMonoBehaviour<PlayerInventory>
             else
             {
                 inventoryCase[i].gameObject.SetActive(false);
+            }
+        }
+
+        for (int i = 0; i < background.Count; i++)
+        {
+            if (i < playerData.CurrentTank)
+            {
+                background[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                background[i].gameObject.SetActive(false);
             }
         }
     }
