@@ -7,7 +7,7 @@ using NaughtyAttributes;
 [System.Serializable]
 public class SpawnableFish
 {
-    public FishMoovement objectPrefab; // Le prefab de l'objet à spawn
+    public Fish objectPrefab; // Le prefab de l'objet à spawn
     [Range(0, 100)]
     public float spawnChance = 0; // Le pourcentage de chance de spawn (en pourcentage)
 }
@@ -16,7 +16,7 @@ public class FishSpawner : MonoBehaviour
 {
     public int maxObjects = 10; // Nombre maximum d'objets à spawn
     public List<SpawnableFish> spawnableObjects; // Liste des objets à spawn avec leurs probabilités
-    private List<FishMoovement> spawnedObjects = new List<FishMoovement>(); // Liste des objets déjà spawnés
+    private List<Fish> spawnedObjects = new List<Fish>(); // Liste des objets déjà spawnés
     public float spawnInterval = 2f; // Intervalle de temps entre les spawns
 
     private Coroutine spawnLoop;
@@ -38,7 +38,7 @@ public class FishSpawner : MonoBehaviour
             yield return new WaitForSeconds(spawnInterval);
         }
     }
-    private FishMoovement ChooseObjectBasedOnChance()
+    private Fish ChooseObjectBasedOnChance()
     {
         // Calculer la somme totale des pourcentages de tous les objets
         float totalChance = spawnableObjects.Sum(obj => obj.spawnChance);
@@ -66,7 +66,7 @@ public class FishSpawner : MonoBehaviour
         }
 
         // Choisir un objet basé sur les chances de spawn
-        FishMoovement objectToSpawn = ChooseObjectBasedOnChance();
+        Fish objectToSpawn = ChooseObjectBasedOnChance();
         if (objectToSpawn == null)// Sécurité si aucun objet n'est sélectionné
         {
             Debug.LogWarning("No object to spawn", this);
@@ -77,25 +77,24 @@ public class FishSpawner : MonoBehaviour
         Vector3 randomPosition = spawnArea.Area.RandomPointInRect();
 
         // Instancier l'objet
-        FishMoovement newObject = Instantiate(objectToSpawn, randomPosition, Quaternion.identity);
-        newObject.moveArea = moveArea;
-        // Ajouter l'objet à la liste
-        spawnedObjects.Add(newObject);
+        Fish newFish = Instantiate(objectToSpawn, randomPosition, Quaternion.identity);
+        newFish.Init(moveArea);
+        spawnedObjects.Add(newFish);
     }
 
-    public void RemoveObject(FishMoovement obj)
+    public void RemoveObject(Fish fish)
     {
-        if (spawnedObjects.Contains(obj))
+        if (spawnedObjects.Contains(fish))
         {
-            spawnedObjects.Remove(obj);
-            Destroy(obj);
+            spawnedObjects.Remove(fish);
+            Destroy(fish);
         }
     }
     public void RemoveAllObjects()
     {
-        foreach (FishMoovement obj in spawnedObjects)
+        foreach (Fish fish in spawnedObjects)
         {
-            Destroy(obj);
+            Destroy(fish);
         }
         spawnedObjects.Clear();
     }
