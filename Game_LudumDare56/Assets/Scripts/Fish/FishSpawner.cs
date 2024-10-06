@@ -19,6 +19,7 @@ public class FishSpawner : MonoBehaviour
     public Transform fishTank;
     public int maxObjects = 10; // Nombre maximum d'objets à spawn
     public List<SpawnableFish> spawnableObjects; // Liste des objets à spawn avec leurs probabilités
+    [SerializeField, ReadOnly]
     private List<Fish> spawnedObjects = new List<Fish>(); // Liste des objets déjà spawnés
     public float spawnInterval = 2f; // Intervalle de temps entre les spawns
 
@@ -62,6 +63,15 @@ public class FishSpawner : MonoBehaviour
     }
     private void SpawnObject()
     {
+        // Nettoyer la liste des objets morts
+        for (int i = spawnedObjects.Count - 1; i >= 0; i--)
+        {
+            if (spawnedObjects[i] == null)
+            {
+                spawnedObjects.RemoveAt(i);
+            }
+        }
+
         // Vérifier s'il y a trop d'objets
         if (spawnedObjects.Count >= maxObjects)
         {

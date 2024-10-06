@@ -86,15 +86,12 @@ public class ShopManager : MonoBehaviour
 
     void OpenShop()
     {
-        Cursor.lockState = CursorLockMode.None; // Libère le curseur
-        Cursor.visible = true; // Affiche le curseur
         RedrawItemLines(); // Remplir le contenu selon l'état (Buy/Sell)
     }
 
     void CloseShop()
     {
-        Cursor.lockState = CursorLockMode.Locked; // Verrouille le curseur
-        Cursor.visible = false; // Cache le curseur
+
     }
 
     // Changer l'affichage du magasin selon l'onglet sélectionné
