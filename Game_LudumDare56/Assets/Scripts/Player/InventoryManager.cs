@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +9,9 @@ public class InventoryManager : MonoBehaviour
     private PlayerData playerData;
     public List<FishItem> fishCaught = new List<FishItem>();
 
-    private void Awake()
+    // Type d'objet � vendre
+    [System.Serializable]
+    public enum ItemType
     {
         playerData = PlayerData.Instance;
         PlayerNet.onFishCaught += AddFish;
