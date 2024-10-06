@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 006c96f68c6b38b4cab22b1c4425b1f8, type: 3}
   m_Name: FishData_Carp 2
   m_EditorClassIdentifier: 
-  sprite: {fileID: -1066314861, guid: 0526f66fbe3798045acda7ca28037c12, type: 3}
+  sprite: {fileID: 21300000, guid: 7b213a909f4697b40b0d13872bbd192a, type: 3}
   specie: 1
-  defaultFreshness: 180
-  minMaxSize: {x: 20, y: 60}
-  minMaxWeight: {x: 500, y: 3000}
+  defaultFreshness: 140
+  basePrice: 20
