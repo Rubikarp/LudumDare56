@@ -4,17 +4,20 @@ using NaughtyAttributes;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
-    [field: SerializeField, Range(1, 10)]
-    public float MoveSpeed { get; private set; } = 5f; // Vitesse de déplacement
-
     [SerializeField, ReadOnly]
     private Vector2 movement;
     private Rigidbody2D rigidBody;
+    private PlayerData playerData;
 
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
         rigidBody.gravityScale = 0;
+    }
+
+    private void Start()
+    {
+        playerData = PlayerData.Instance;
     }
 
     void Update()
@@ -29,6 +32,6 @@ public class PlayerMovement : MonoBehaviour
             movement.Normalize();
         }
 
-        rigidBody.velocity = movement * MoveSpeed;
+        rigidBody.velocity = movement * playerData.defaultSpeed;
     }
 }

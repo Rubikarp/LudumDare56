@@ -13,6 +13,8 @@
 
     protected override void Awake()
     {
+        //remove all parent hierarchy
+        transform.SetParent(null);
         IsDontDestroyOnLoad = true;
         base.Awake();
     }

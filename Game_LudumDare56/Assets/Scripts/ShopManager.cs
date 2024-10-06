@@ -20,7 +20,7 @@ public class ShopManager : MonoBehaviour
 
     }
 
-    public void SellFish(FishData fish)
+    public void SellFish(FishItem fish)
     {
         playerData.money += fish.Price;
     }

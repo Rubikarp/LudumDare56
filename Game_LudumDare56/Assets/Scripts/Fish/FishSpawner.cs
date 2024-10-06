@@ -7,13 +7,16 @@ using NaughtyAttributes;
 [System.Serializable]
 public class SpawnableFish
 {
-    public Fish objectPrefab; // Le prefab de l'objet à spawn
+    [Expandable]
+    public FishData fishData; // Le prefab de l'objet à spawn
     [Range(0, 100)]
     public float spawnChance = 0; // Le pourcentage de chance de spawn (en pourcentage)
 }
 
 public class FishSpawner : MonoBehaviour
 {
+    public Fish fishPrefab; // Le prefab de l'objet à spawn
+    public Transform fishTank;
     public int maxObjects = 10; // Nombre maximum d'objets à spawn
     public List<SpawnableFish> spawnableObjects; // Liste des objets à spawn avec leurs probabilités
     private List<Fish> spawnedObjects = new List<Fish>(); // Liste des objets déjà spawnés
@@ -38,7 +41,7 @@ public class FishSpawner : MonoBehaviour
             yield return new WaitForSeconds(spawnInterval);
         }
     }
-    private Fish ChooseObjectBasedOnChance()
+    private FishData ChooseObjectBasedOnChance()
     {
         // Calculer la somme totale des pourcentages de tous les objets
         float totalChance = spawnableObjects.Sum(obj => obj.spawnChance);
@@ -51,7 +54,7 @@ public class FishSpawner : MonoBehaviour
         {
             if (randomValue < spawnableObject.spawnChance)
             {
-                return spawnableObject.objectPrefab;
+                return spawnableObject.fishData;
             }
             randomValue -= spawnableObject.spawnChance;
         }
@@ -66,8 +69,8 @@ public class FishSpawner : MonoBehaviour
         }
 
         // Choisir un objet basé sur les chances de spawn
-        Fish objectToSpawn = ChooseObjectBasedOnChance();
-        if (objectToSpawn == null)// Sécurité si aucun objet n'est sélectionné
+        FishData fishDataToSpawn = ChooseObjectBasedOnChance();
+        if (fishDataToSpawn == null)// Sécurité si aucun objet n'est sélectionné
         {
             Debug.LogWarning("No object to spawn", this);
             return;
@@ -77,8 +80,8 @@ public class FishSpawner : MonoBehaviour
         Vector3 randomPosition = spawnArea.Area.RandomPointInRect();
 
         // Instancier l'objet
-        Fish newFish = Instantiate(objectToSpawn, randomPosition, Quaternion.identity);
-        newFish.Init(moveArea);
+        Fish newFish = Instantiate(fishPrefab, randomPosition, Quaternion.identity, fishTank);
+        newFish.Init(moveArea, fishDataToSpawn);
         spawnedObjects.Add(newFish);
     }
 
